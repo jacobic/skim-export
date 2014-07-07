@@ -1,6 +1,7 @@
 tell application "Skim"
 	set theFile to the file of the front document
 	set outText to ""
+    set newLine to ASCII character 10
 	
     # Get the relevant bibliographic information for the front PDF in Skim
 	tell application "BibDesk"
@@ -52,21 +53,21 @@ tell application "Skim"
                             # are filtered out to capture all anchored notes, delete the right conjunct.
 							if (type of currentNote is text note) and (color of currentNote is not {44161, 30873, 1586, 65535}) then
 								set noteText to the text of currentNote
-								set notesTogether to notesTogether & noteText & "   " & return & noteFooter & return & return
+								set notesTogether to notesTogether & noteText & "   " & newLine & noteFooter & return & return
 							else if (type of currentNote is anchored note) and (color of currentNote is not {44161, 30873, 1586, 65535}) then
 								if the text of currentNote is not "" then
-									set noteTitle to "#### " & the text of currentNote & " ####" & return & return
+									set noteTitle to "#### " & the text of currentNote & " ####" & newLine & return
 								else
 									set noteTitle to ""
 								end if
 								set noteText to the extended text of currentNote
-								set notesTogether to notesTogether & noteTitle & noteText & "   " & return & noteFooter & return & return
+								set notesTogether to notesTogether & noteTitle & noteText & "   " & newLine & noteFooter & return & return
 							end if
 						end repeat
 						
                         # String all the output together
 						if notesTogether is not equal to "" then
-							set outText to outText & docTitle & return & return
+							set outText to outText & docTitle & newLine & return
 							set outText to outText & notesTogether
 						end if
 						
@@ -105,15 +106,15 @@ tell application "Skim"
 									
 									if (type of currentNote is text note) and (color of currentNote is not {44161, 30873, 1586, 65535}) then
 										set noteText to the text of currentNote
-										set notesTogether to notesTogether & noteText & "   " & return & noteFooter & return & return
+										set notesTogether to notesTogether & noteText & "   " & newLine & noteFooter & return & return
 									else if (type of currentNote is anchored note) and (color of currentNote is not {44161, 30873, 1586, 65535}) then
 										if the text of currentNote is not "" then
-											set noteTitle to "#### " & the text of currentNote & " ####" & return & return
+											set noteTitle to "#### " & the text of currentNote & " ####" & newLine & return
 										else
 											set noteTitle to ""
 										end if
 										set noteText to the extended text of currentNote
-										set notesTogether to notesTogether & noteTitle & noteText & "   " & return & noteFooter & return & return
+										set notesTogether to notesTogether & noteTitle & noteText & "   " & newLine & noteFooter & return & return
 									end if
 									
 								end repeat
@@ -121,14 +122,14 @@ tell application "Skim"
 							
                             # Strings these notes together with the previous sections.
 							if notesTogether is not equal to "" then
-								set allNotesTogether to allNotesTogether & currentTitle & return & return & notesTogether
+								set allNotesTogether to allNotesTogether & currentTitle & newLine & return & notesTogether
 							end if
 							
 							
 						# String all the output together	
 						end repeat
 						if allNotesTogether is not equal to "" then
-							set outText to outText & docTitle & return & return
+							set outText to outText & docTitle & newLine & return
 							set outText to outText & allNotesTogether
 						end if
 					end if
